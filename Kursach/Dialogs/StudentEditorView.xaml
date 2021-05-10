@@ -1,0 +1,54 @@
+﻿<UserControl 
+    x:Class="ISTraining_Part.Dialogs.StudentEditorView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:ISTraining_Part.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:vm="clr-namespace:ISTraining_Part.Dialogs"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=vm:StudentEditorViewModel, IsDesignTimeCreatable=True}"
+    Style="{StaticResource MaxSizeUserControl}">
+
+    <material:DialogHost Identifier="{Binding Identifier}">
+        <StackPanel Height="542"
+                    Width="400">
+            <TextBlock Style="{StaticResource IsEditModeTextBlock}"/>
+
+            <TextBox Text="{Binding EditableObject.LastName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     material:HintAssist.Hint="名"/>
+
+            <TextBox Text="{Binding EditableObject.FirstName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     material:HintAssist.Hint="姓"/>
+
+            <TextBox Text="{Binding EditableObject.MiddleName, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     material:HintAssist.Hint="曾用名"/>
+
+            <DatePicker SelectedDate="{Binding EditableObject.Birthdate, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                        material:HintAssist.Hint="生日"/>
+
+            <TextBox Text="{Binding EditableObject.PoPkNumber, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     material:HintAssist.Hint="PoPk号码"/>
+
+            <TextBox Text="{Binding EditableObject.DecreeOfEnrollment, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"
+                     material:HintAssist.Hint="登记号"/>
+
+            <TextBox Text="{Binding EditableObject.Notice, UpdateSourceTrigger=PropertyChanged}"
+                     material:HintAssist.Hint="说明"/>
+
+            <controls:DivisionGroupComboBox/>
+
+            <CheckBox IsChecked="{Binding EditableObject.Expelled}"
+                      Margin="5"
+                      Content="包括学生"/>
+
+            <CheckBox IsChecked="{Binding EditableObject.OnSabbatical}"
+                      Margin="5"
+                      Content="休假"/>
+
+            <controls:EditorButtons/>
+        </StackPanel>
+    </material:DialogHost>
+
+</UserControl>

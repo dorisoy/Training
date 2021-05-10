@@ -1,0 +1,67 @@
+﻿<UserControl 
+    x:Class="ISTraining_Part.Views.StudentsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:material="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:prism="http://prismlibrary.com/"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="clr-namespace:ISTraining_Part.Controls"
+    xmlns:converters="clr-namespace:ISTraining_Part.Converters"
+    xmlns:vm="clr-namespace:ISTraining_Part.ViewModels"
+    mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=vm:StudentsViewModel, IsDesignTimeCreatable=True}"
+    prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <UserControl.Resources>
+        <converters:BoolToValueConverter x:Key="ExpelledConverter"
+                                         TrueValue="包括在内"
+                                         FalseValue="不包括在内"/>
+        <converters:BoolToValueConverter x:Key="OnSabbaticalConverter"
+                                         TrueValue="离线" FalseValue="{x:Null}"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Button Content="{material:PackIcon Kind=ArrowBack}"
+                Command="{Binding GoBackCommand}"/>
+
+        <controls:AddButton Content="添加行" Grid.Column="1"/>
+
+        <ListView ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  Grid.Row="1"
+                  FontSize="16"
+                  Grid.ColumnSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="姓" DisplayMemberBinding="{Binding LastName}"/>
+                    <GridViewColumn Header="名字" DisplayMemberBinding="{Binding FirstName}"/>
+                    <GridViewColumn Header="曾用名" DisplayMemberBinding="{Binding MiddleName}"/>
+                    <GridViewColumn Header="开除" DisplayMemberBinding="{Binding Expelled, Converter={StaticResource ExpelledConverter}}"/>
+                    <GridViewColumn Header="离线" DisplayMemberBinding="{Binding OnSabbatical, Converter={StaticResource OnSabbaticalConverter}}"/>
+                </GridView>
+            </ListView.View>
+
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <controls:MenuItemEditButton Visibility="{Binding User.Mode, Converter={StaticResource RWUserModeToVisibility}}"/>
+                    <controls:MenuItemDeleteButton Visibility="{Binding User.Mode, Converter={StaticResource RWUserModeToVisibility}}"/>
+                    <controls:MenuItemAddButton Visibility="{Binding User.Mode, Converter={StaticResource RWUserModeToVisibility}}"/>
+                    <Separator Visibility="{Binding User.Mode, Converter={StaticResource RWUserModeToVisibility}}"/>
+                    <controls:MenuItemDetailInfo/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
+    </Grid>
+
+</UserControl>
